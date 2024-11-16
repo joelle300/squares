@@ -112,29 +112,43 @@ class Game:
 def draw_board(game):
     print(game.init_state)  
 
-# def main():
-#     init_board = [
-#          [1, 1, 1, 1, 1, 1, 1, 1],
-#         [1, 0, 0, 1, 0, 0, 0, 1],
-#         [1, 2, 0, 0, 0, 0, 0, 1],  
-#         [1, 0, 0, 0, 0, 0, 0, 1],
-#         [1, 1, 1, 1, 'p', 1, 1, 1],
-#         [1, 0, 0, 1, 1, 1, 0, 0],
-#     ]
-#     rows = len(init_board)
-#     cols = len(init_board[0])
+def main():
+    init_board = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 1, 0, 0, 0, 0, 0, 1],
+        [1, 2, 0, 0, 0, 0, 0, 0, 1],  
+        [1, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 'p', 1, 1, 1],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0],
+        
+    ]
+    
+    rows = len(init_board)
+    cols = len(init_board[0])
 
-#     board = [[None for _ in range(cols)] for _ in range(rows)]
+    board = [[None for _ in range(cols)] for _ in range(rows)]
 
-#     for i in range(rows):
-#         for j in range(cols):
-#             square_type = init_board[i][j]  
-#             board[i][j] = Square(i, j, square_type)
 
-#     init_state = State(rows, cols, board)
-#     game = Game(init_state)
+    for i in range(rows):
+        for j in range(cols):
+            square_type = init_board[i][j]  
+            board[i][j] = Square(i, j, square_type)
 
-#     draw_board(game)
+    init_state = State(rows, cols, board)
+    game = Game(init_state)
+
+    draw_board(game)
+    
+    algorithm = input("Enter (BFS/DFS): ")
+
+    if algorithm == 'bfs':
+        bfs = BFS(game)
+        bfs.bfs_move()
+    elif algorithm == 'dfs':
+        dfs = DFS(game)
+        dfs.dfs_move()
+    else:
+        print("Invalid")
 
 #     while True:
 #         print("Use 'w' for Up, 'a' for Left, 's' for Down, 'd' for Right, 'q' to quit.")
@@ -166,46 +180,5 @@ def draw_board(game):
 #         else:
 #             print("The first possible state is different from the current state.")
 
-def main():
-    init_board = [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 0, 0, 0, 0, 0, 1],
-        [1, 2, 0, 0, 0, 0, 0, 0, 1],  
-        [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 'p', 1, 1, 1],
-        [0, 0, 0, 0, 1, 1, 1, 0, 0],
-        
-    ]
-    
-    rows = len(init_board)
-    cols = len(init_board[0])
-
-    board = [[None for _ in range(cols)] for _ in range(rows)]
-
-
-    for i in range(rows):
-        for j in range(cols):
-            square_type = init_board[i][j]  
-            board[i][j] = Square(i, j, square_type)
-
-    init_state = State(rows, cols, board)
-    game = Game(init_state)
-
-    draw_board(game)
-    
-
-    algorithm = input("Enter (BFS/DFS): ")
-    
-
-    if algorithm == 'bfs':
-        bfs = BFS(game)
-        bfs.bfs_move()
-    elif algorithm == 'dfs':
-        dfs = DFS(game)
-        dfs.dfs_move()
-    else:
-        print("Invalid")
-
 if __name__ == '__main__':
     main()
-
