@@ -1,7 +1,8 @@
 import msvcrt  
 import copy  
 from algorithms import BFS
-from algorithms import DFS
+from algorithms import DFSRecursion
+from algorithms import UCS
 
 class Square:
     def __init__(self, x, y, type) -> None:
@@ -115,7 +116,7 @@ def draw_board(game):
 def main():
     init_board = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1, 0, 0, 0, 1],
         [1, 2, 0, 0, 0, 0, 0, 0, 1],  
         [1, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 'p', 1, 1, 1],
@@ -139,46 +140,55 @@ def main():
 
     draw_board(game)
     
-    algorithm = input("Enter (BFS/DFS): ")
+    
 
+    algorithm = input("Enter (BFS/DFS/UCS): ")
     if algorithm == 'bfs':
         bfs = BFS(game)
         bfs.bfs_move()
     elif algorithm == 'dfs':
-        dfs = DFS(game)
+        # dfs = DFS(game)
+        # dfs.dfs_move()
+        # dfs.dfsr(0,0)
+        dfs=DFSRecursion(game)
         dfs.dfs_move()
+        dfs.dfs_move_recursive(0,0,0)
+    elif algorithm=='ucs':
+        ucs = UCS(game)
+        ucs.ucs_move()
+        
     else:
         print("Invalid")
 
-#     while True:
-#         print("Use 'w' for Up, 'a' for Left, 's' for Down, 'd' for Right, 'q' to quit.")
-#         key = msvcrt.getch().decode('utf-8')  
+    # while True:
+    #     print("Use 'w' for Up, 'a' for Left, 's' for Down, 'd' for Right, 'q' to quit.")
+    #     key = msvcrt.getch().decode('utf-8')  
 
-#         if key == 'q':  
-#             print("Exiting game...")
-#             break
+    #     if key == 'q':  
+    #         print("Exiting game...")
+    #         break
 
-#         if game.move(key):  
-#             draw_board(game)  
-#             break  
+    #     if game.move(key):  
+    #         draw_board(game)  
+    #         break  
 
-#         draw_board(game)  
+    #     draw_board(game)  
 
-#         if game.check_game_over():
-#             print("Congratulations! You've reached the goal!")
-#             break  
+    #     if game.check_game_over():
+    #         print("Congratulations! You've reached the goal!")
+    #         break  
 
-#         possible_states = game.generate_possible_states()
-#         print(f"\nPossible states after your move (4 directions):")
-#         for i, state in enumerate(possible_states, 1):
-#             print(f"Possible state {i}:")
-#             print(state)
-#             print("-" * 30)
+    #     possible_states = game.generate_possible_states()
+    #     print(f"\nPossible states after your move (4 directions):")
+    #     for i, state in enumerate(possible_states, 1):
+    #         print(f"Possible state {i}:")
+    #         print(state)
+    #         print("-" * 30)
 
-#         if game.init_state == possible_states[0]:
-#             print("The first possible state is the same as the current state.")
-#         else:
-#             print("The first possible state is different from the current state.")
+    #     if game.init_state == possible_states[0]:
+    #         print("The first possible state is the same as the current state.")
+    #     else:
+    #         print("The first possible state is different from the current state.")
 
 if __name__ == '__main__':
     main()
