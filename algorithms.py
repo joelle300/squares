@@ -205,3 +205,71 @@ class UCS:
 def draw_board(game):
     for row in game.init_state.board:
         print(' '.join(str(square.type) for square in row))
+
+#  heuristic quiz
+class AStar:
+    def __init__(self, game):
+        self.game = game
+        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  
+        self.goal_coords = self.find_goal(game.init_state)  
+    
+    def find_goal(self, state):
+        for row in state.board:
+            for square in row:
+                if square.type == 'p':
+                    return square.x, square.y
+        return None
+    
+    def heuristic(self, x, y):
+        goal_x, goal_y = self.goal_coords
+        return abs(goal_x - x) + abs(goal_y - y)
+    
+    def a_star_move(self):
+        start_x, start_y = self.game.getPCoords(self.game.init_state)  
+        goal_x, goal_y = self.goal_coords  
+
+        front = []
+        heapq.heappush(front, (0 + self.heuristic(start_x, start_y), 0, start_x, start_y, []))  
+        
+        visited = set()  
+        visited.add((start_x, start_y))  
+
+        while front:
+            f, g, x, y, path = heapq.heappop(front)  
+
+            if (x, y) == (goal_x, goal_y):
+                self._apply_move(path)  
+                print("A*: Found a path to the goal")
+                return True
+
+            for dx, dy in self.directions:
+                new_x, new_y = x + dx, y + dy
+                if 0 <= new_x < self.game.init_state.rows and 0 <= new_y < self.game.init_state.cols:
+                    if (new_x, new_y) not in visited:
+                        if self.game.init_state.board[new_x][new_y].type == 0 or self.game.init_state.board[new_x][new_y].type == 'p':
+                            visited.add((new_x, new_y))
+                            new_g = g + 1  
+                            new_f = new_g + self.heuristic(new_x, new_y)  
+                            new_path = path + [(new_x, new_y)]  
+                            heapq.heappush(front, (new_f, new_g, new_x, new_y, new_path))  
+
+        print("***A****: No path found")
+        return False
+
+    def _apply_move(self, path):
+        current_state = self.game.init_state
+        x, y = self.game.getPCoords(current_state)
+
+        print("A*: Moving through path: ")
+        for new_x, new_y in path:
+            print(f"Moving to ({new_x}, {new_y})")
+            current_state.board[x][y].type = 0  
+            current_state.board[new_x][new_y].type = 2  
+            x, y = new_x, new_y
+
+        draw_board(self.game)  
+
+def draw_board(game):
+    for row in game.init_state.board:
+        print(' '.join(str(square.type) for square in row))  
+
