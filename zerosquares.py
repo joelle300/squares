@@ -156,6 +156,9 @@ def main():
     elif algorithm=='ucs':
         ucs = UCS(game)
         ucs.ucs_move()
+    elif algorithm=='a*' :
+        astar = AStar(game)
+        astar.a_star_move()
         
     else:
         print("Invalid")
